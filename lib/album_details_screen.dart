@@ -23,9 +23,9 @@ class _AlbumDetailsScreenState extends State<AlbumDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    int? trackNumber = widget.albumDetails?['trackNumber'] as int?;
-    List<String>? trackName = widget.albumDetails?['trackName']?.cast<String>();
-    String releaseDate = widget.albumDetails?['releaseDate'] ?? '';
+    // Fetch track information from albumDetails
+    List<Map<String, dynamic>>? tracks =
+        widget.albumDetails?['tracks']?.cast<Map<String, dynamic>>();
 
     return Scaffold(
       appBar: AppBar(
@@ -44,7 +44,7 @@ class _AlbumDetailsScreenState extends State<AlbumDetailsScreen> {
             ),
             SizedBox(height: 8.0),
             Text('Artist: ${widget.albumDetails!['artistName'] ?? ''}'),
-            Text('Release Date: $releaseDate'),
+            Text('Release Date: ${widget.albumDetails!['releaseDate'] ?? ''}'),
             SizedBox(height: 16.0),
             Text(
               'Tracklist:',
@@ -52,10 +52,13 @@ class _AlbumDetailsScreenState extends State<AlbumDetailsScreen> {
             ),
             SizedBox(height: 8.0),
 
-            // Generic Table with Fixed Data
+            // ...
+
+            // Display track information in a Table
             Table(
               border: TableBorder.all(),
               children: [
+                // Header row
                 TableRow(
                   children: [
                     TableCell(child: Text('Track #')),
@@ -63,11 +66,12 @@ class _AlbumDetailsScreenState extends State<AlbumDetailsScreen> {
                     TableCell(child: Text('Rating')),
                   ],
                 ),
-                for (int i = 0; i < (trackName?.length ?? 0); i++)
+                // Data rows
+                for (int i = 0; i < (tracks?.length ?? 0); i++)
                   TableRow(
                     children: [
-                      TableCell(child: Text((trackNumber ?? 0).toString())),
-                      TableCell(child: Text(trackName?[i] ?? '')),
+                      TableCell(child: Text(tracks![i]['trackNumber'].toString())),
+                      TableCell(child: Text(tracks![i]['trackName'])),
                       TableCell(child: Text('Rating ${i + 1}')),
                     ],
                   ),
@@ -86,8 +90,9 @@ class _AlbumDetailsScreenState extends State<AlbumDetailsScreen> {
                   totalRating += value;
                 });
 
-                double averageRating =
-                    songRatings.isNotEmpty ? totalRating / songRatings.length : 0;
+                double averageRating = songRatings.isNotEmpty
+                    ? totalRating / songRatings.length
+                    : 0;
 
                 // TODO: Implement your logic to use averageRating
                 print('Average Rating: $averageRating');
