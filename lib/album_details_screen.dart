@@ -13,19 +13,21 @@ class AlbumDetailsScreen extends StatefulWidget {
 class _AlbumDetailsScreenState extends State<AlbumDetailsScreen> {
   Map<String, double> songRatings = {}; // Map to store song ratings
 
-  String _formatDuration(int milliseconds) {
-    Duration duration = Duration(milliseconds: milliseconds);
-    String twoDigits(int n) => n.toString().padLeft(2, "0");
-    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
-    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
-    return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
-  }
-
   @override
   Widget build(BuildContext context) {
-    // Fetch track information from albumDetails
-    List<Map<String, dynamic>>? tracks =
-        widget.albumDetails?['tracks']?.cast<Map<String, dynamic>>();
+    List<Map<String, dynamic>>? tracks = widget.albumDetails?['tracks']?.cast<Map<String, dynamic>>();
+
+    if (tracks == null) {
+      print('Tracks is null');
+    } else {
+      print('Number of tracks: ${tracks.length}');
+      for (int i = 0; i < tracks.length; i++) {
+        print('Track $i:');
+        print('Track Number: ${tracks[i]['trackNumber']}');
+        print('Track Name: ${tracks[i]['trackName']}');
+        print('------');
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -52,31 +54,20 @@ class _AlbumDetailsScreenState extends State<AlbumDetailsScreen> {
             ),
             SizedBox(height: 8.0),
 
-            // Display track information in a Table
-            Table(
-              border: TableBorder.all(),
-              children: [
-                // Header row
-                TableRow(
-                  children: [
-                    TableCell(child: Text('Track #')),
-                    TableCell(child: Text('Title')),
-                    TableCell(child: Text('Rating')),
-                  ],
-                ),
-                // Data rows
-                for (int i = 0; i < (tracks?.length ?? 0); i++)
-                  TableRow(
-                    children: [
-                      TableCell(child: Text((tracks![i]['trackNumber'] ?? i + 1).toString())),
-                      TableCell(child: Text(tracks![i]['trackName']?.toString() ?? 'N/A')),
-                      TableCell(child: Text('Rating ${i + 1}')),
-                    ],
-                  ),
-              ],
-            ),
+            // Display track information in a ListView
+            Expanded(
+              child: ListView(
+                children: tracks?.map((track) {
+                  String trackNumber = track['trackNumber']?.toString() ?? 'N/A';
+                  String trackName = track['trackName']?.toString() ?? 'N/A';
 
-            // ...
+                  return ListTile(
+                    title: Text('Track $trackNumber: $trackName'),
+                    subtitle: Text('Rating ${track['rating'] ?? 'N/A'}'),
+                  );
+                }).toList() ?? [],
+              ),
+            ),
 
             // Submit button
             SizedBox(height: 16.0),
