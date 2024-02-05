@@ -32,7 +32,8 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.2
   http: ^1.2.0  # Use the latest version available
-  #flutter_rating_bar: 4.0.1
+  #rating_bar: ^2.0.1
+  flutter_rating_bar: 4.0.1
 
 dev_dependencies:
   flutter_test:

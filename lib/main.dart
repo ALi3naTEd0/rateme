@@ -11,11 +11,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Rate Me!', // App title
+      title: 'Rate Me!',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: AlbumSearchScreen(), // Initial screen
+      home: AlbumSearchScreen(),
     );
   }
 }
@@ -29,7 +29,6 @@ class _AlbumSearchScreenState extends State<AlbumSearchScreen> {
   TextEditingController _searchController = TextEditingController();
   List<Map<String, dynamic>> _searchResults = [];
 
-  // Function to search for albums based on user input
   void _searchAlbums() async {
     final query = _searchController.text.trim();
 
@@ -59,7 +58,7 @@ class _AlbumSearchScreenState extends State<AlbumSearchScreen> {
       appBar: AppBar(
         title: Center(
           child: Text(
-            'Rate Me!', // Centered and bold app title
+            'Rate Me!',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
@@ -71,14 +70,14 @@ class _AlbumSearchScreenState extends State<AlbumSearchScreen> {
             TextField(
               controller: _searchController,
               decoration: InputDecoration(
-                labelText: 'Search for an album', // Search input field
+                labelText: 'Search for an album',
               ),
-              onChanged: (_) => _searchAlbums(), // Trigger search on input change
+              onChanged: (_) => _searchAlbums(),
             ),
             SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: _searchAlbums,
-              child: Text('Search'), // Search button
+              child: Text('Search'),
             ),
             SizedBox(height: 16.0),
             Expanded(
@@ -87,8 +86,8 @@ class _AlbumSearchScreenState extends State<AlbumSearchScreen> {
                 itemBuilder: (context, index) {
                   final album = _searchResults[index];
                   return ListTile(
-                    title: Text(album['collectionName']), // Album name
-                    subtitle: Text(album['artistName']), // Artist name
+                    title: Text(album['collectionName']),
+                    subtitle: Text(album['artistName']),
                     onTap: () {
                       Navigator.push(
                         context,

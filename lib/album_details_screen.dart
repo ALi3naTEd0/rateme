@@ -52,8 +52,6 @@ class _AlbumDetailsScreenState extends State<AlbumDetailsScreen> {
             ),
             SizedBox(height: 8.0),
 
-            // ...
-
             // Display track information in a Table
             Table(
               border: TableBorder.all(),
@@ -70,8 +68,8 @@ class _AlbumDetailsScreenState extends State<AlbumDetailsScreen> {
                 for (int i = 0; i < (tracks?.length ?? 0); i++)
                   TableRow(
                     children: [
-                      TableCell(child: Text(tracks![i]['trackNumber'].toString())),
-                      TableCell(child: Text(tracks![i]['trackName'])),
+                      TableCell(child: Text((tracks![i]['trackNumber'] ?? i + 1).toString())),
+                      TableCell(child: Text(tracks![i]['trackName']?.toString() ?? 'N/A')),
                       TableCell(child: Text('Rating ${i + 1}')),
                     ],
                   ),
